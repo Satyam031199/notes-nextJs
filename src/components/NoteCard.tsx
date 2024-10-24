@@ -20,16 +20,17 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Edit, Trash } from "lucide-react"; // Icons from lucide-react
+import { Edit, IdCardIcon, Trash } from "lucide-react"; // Icons from lucide-react
 import { useState } from "react";
 
 interface NoteCardProps {
+  id: number;
   title: string;
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: (id: number, newContent: string) => void;
+  onDelete: (id: number) => void;
 }
 
-export function NoteCard({ title, onEdit, onDelete }: NoteCardProps) {
+export function NoteCard({ id, title, onEdit, onDelete }: NoteCardProps) {
   const [editContent, setEditContent] = useState<string>(title);
   return (
     <Card className="w-full p-1 m-2 shadow-lg">
@@ -53,7 +54,7 @@ export function NoteCard({ title, onEdit, onDelete }: NoteCardProps) {
                 className="w-full p-2 border rounded"
                 placeholder="Edit your note content..."
               />
-              <Button type="submit">Save Changes</Button>
+              <Button type="submit" onClick={() => onEdit(id, editContent)}>Save Changes</Button>
             </SheetContent>
           </Sheet>
           {/* Delete Note */}
@@ -74,7 +75,7 @@ export function NoteCard({ title, onEdit, onDelete }: NoteCardProps) {
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction className="bg-red-500" asChild>
-                  <Button variant="destructive" onClick={onDelete}>
+                  <Button variant="destructive" onClick={() => onDelete(id)}>
                     Delete
                   </Button>
                 </AlertDialogAction>

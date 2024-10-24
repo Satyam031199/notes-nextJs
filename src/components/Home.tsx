@@ -1,6 +1,6 @@
 "use client";
 
-import { createNote, deleteNote, getUserNotes } from "@/utils/db/actions";
+import { createNote, deleteNote, getUserNotes, updateNote } from "@/utils/db/actions";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -43,9 +43,17 @@ export default function Home() {
     }
   };
 
-  const handleEdit = (id: number) => {
-    console.log("Editing note:", id);
-    // Add your edit logic here (e.g., open a modal or sheet)
+  const handleEdit = async (id: number, newContent: string) => {
+    const success = await updateNote(id, newContent);
+    if (success) {
+      setNotes((prev) =>
+        prev.map((note) =>
+          note.id === id ? { ...note, content: newContent } : note
+        )
+      );
+    } else {
+      console.error("Failed to update note.")
+    }
   };
 
   const handleDelete = async (id: number) => {
@@ -129,9 +137,10 @@ export default function Home() {
           {notes.map((note) => (
             <NoteCard
               key={note.id}
+              id={note.id}
               title={note.content}
-              onEdit={() => handleEdit(note.id)}
-              onDelete={() => handleDelete(note.id)}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
             />
           ))}
         </ul>
