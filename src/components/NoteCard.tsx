@@ -13,14 +13,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetFooter,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Edit, IdCardIcon, Trash } from "lucide-react"; // Icons from lucide-react
+import { Edit, Trash } from "lucide-react"; // Icons from lucide-react
 import { useState } from "react";
 
 interface NoteCardProps {
